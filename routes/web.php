@@ -13,8 +13,18 @@
 
 // Home page
 $app->get('/', function () use ($app) {
-    return $app->version();
+    return response()->json(['app'=>'swesat', 'version' => "0.0.1", "last_update"=> '2017-08-01'], 200);
 });
+// Contatos
+$app->get('/contato','ContatoController@index');
+$app->get('/contato/{id}','ContatoController@carregar');
+$app->get('/contato/ativar/{id}','ContatoController@ativar');
+$app->get('/contato/desativar/{id}','ContatoController@desativar');
+$app->post('/contato','ContatoController@adicionar');
+$app->put('/contato/{id}', 'ContatoController@atualizar');
+$app->delete('/contato/{id}', 'ContatoController@deletar');
+
+
 
 // Posts
 $app->get('/posts','PostController@index');

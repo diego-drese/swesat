@@ -20,12 +20,13 @@ class DatabaseSeeder extends Seeder {
 		DB::statement('SET FOREIGN_KEY_CHECKS = 0');
 
 		User::truncate();
+		/*
 		Post::truncate();
 		Comment::truncate();
-
-		factory(User::class, 10)->create();
-		factory(Post::class, 50)->create();
-		factory(Comment::class, 100)->create();
+        */
+		factory(User::class, 1)->create();
+		//factory(Post::class, 50)->create();
+		//factory(Comment::class, 100)->create();
 
 		$this->call('OAuthClientSeeder');
 

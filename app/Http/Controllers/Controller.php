@@ -21,6 +21,16 @@ class Controller extends BaseController{
 	}
 
     /**
+     * Return a JSON response for success.
+     *
+     * @param  array  $data
+     * @param  string $code
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function successList($data, $recordsTotal=0, $code){
+        return response()->json(['data' => $data, 'recordsTotal' => $recordsTotal, 'recordsFiltered' => count($data)], $code);
+    }
+    /**
      * Return a JSON response for error.
      *
      * @param  array  $message
