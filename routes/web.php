@@ -24,7 +24,17 @@ $app->post('/contato','ContatoController@adicionar');
 $app->put('/contato/{id}', 'ContatoController@atualizar');
 $app->delete('/contato/{id}', 'ContatoController@deletar');
 
+// Grupos
+$app->get('/grupo','GrupoController@index');
+$app->get('/grupo/{id}','GrupoController@carregar');
+$app->get('/grupo/ativar/{id}','GrupoController@ativar');
+$app->get('/grupo/desativar/{id}','GrupoController@desativar');
+$app->post('/grupo','GrupoController@adicionar');
+$app->put('/grupo/{id}', 'GrupoController@atualizar');
+$app->delete('/grupo/{id}', 'GrupoController@deletar');
 
+// Grupos Contatos
+$app->get('/grupo-contato/{id}','GrupoContatoController@grupoContato');
 
 // Posts
 $app->get('/posts','PostController@index');

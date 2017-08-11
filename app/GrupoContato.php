@@ -6,23 +6,22 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use phpDocumentor\Reflection\Types\Self_;
 
-class Contato extends Model{
+class GrupoContato extends Model{
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-	protected $fillable = ['id', 'user_id', 'nome', 'sobre_nome', 'email', 'telefone', 'data_nascimento'];
+	protected $fillable = ['grupo_contato', 'contato_id'];
 
     /**
      * The attributes excluded from the model's JSON form.
      *
      * @var array
      */
-	protected $hidden   = ['data_criacao', 'data_atualizacao'];
 
-	protected $table    = "contato";
+	protected $table    = "grupo_contato";
 
     /**
      * Define a one-to-many relationship with App\Comment
@@ -30,23 +29,19 @@ class Contato extends Model{
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     protected static function setaCondicoes($query, Request $request){
-        if($request->get('name')){
-            $query->where('nome', 'like' , "%".$request->get('name')."%");
+        if($request->get('grupo_id')){
+            if(is_array($request->get('grupo_id'))){
+                $query->whereIn('grupo_id', $request->get('grupo_id'));
+            }else{
+                $query->where('grupo_id', $request->get('grupo_id'));
+            }
         }
-        if($request->get('sobre_nome')){
-            $query->where('sobre_nome', 'like' , "%".$request->get('sobre_nome')."%");
-        }
-        if($request->get('telefone')){
-            $query->where('telefone', 'like' , "%".$request->get('telefone')."%");
-        }
-        if($request->get('email')){
-            $query->where('email', 'like' , "%".$request->get('email')."%");
-        }
-        if($request->get('data_nascimento')){
-            $query->where('data_nascimento', 'like' , "%".$request->get('data_nascimento')."%");
-        }
-        if($request->get('ativo')){
-            $query->where('ativo', '=' , $request->get('ativo'));
+        if($request->get('contato_id')){
+            if(is_array($request->get('contato_id'))){
+                $query->whereIn('contato_id', $request->get('contato_id'));
+            }else{
+                $query->where('contato_id', $request->get('contato_id'));
+            }
         }
         return $query;
     }
@@ -61,6 +56,13 @@ class Contato extends Model{
         $query = self::where('user_id',$userId);
         $query = self::setaCondicoes($query, $request);
         return $query->count();
+    }
+
+    public static function carregaTodosOsGruposDoContato($userId=0, $contatoId=0){
+        $query = self::where('contato_id', $contatoId);
+        $query = self::where('usuario_id', $userId);
+        $query = self::join('grupo', "grupo.id", "grupo_id");
+        return $query->get();
     }
 
 }

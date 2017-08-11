@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use phpDocumentor\Reflection\Types\Self_;
 
-class Contato extends Model{
+class Grupo extends Model{
 
     /**
      * The attributes that are mass assignable.
@@ -22,7 +22,7 @@ class Contato extends Model{
      */
 	protected $hidden   = ['data_criacao', 'data_atualizacao'];
 
-	protected $table    = "contato";
+	protected $table    = "grupo";
 
     /**
      * Define a one-to-many relationship with App\Comment
@@ -32,18 +32,6 @@ class Contato extends Model{
     protected static function setaCondicoes($query, Request $request){
         if($request->get('name')){
             $query->where('nome', 'like' , "%".$request->get('name')."%");
-        }
-        if($request->get('sobre_nome')){
-            $query->where('sobre_nome', 'like' , "%".$request->get('sobre_nome')."%");
-        }
-        if($request->get('telefone')){
-            $query->where('telefone', 'like' , "%".$request->get('telefone')."%");
-        }
-        if($request->get('email')){
-            $query->where('email', 'like' , "%".$request->get('email')."%");
-        }
-        if($request->get('data_nascimento')){
-            $query->where('data_nascimento', 'like' , "%".$request->get('data_nascimento')."%");
         }
         if($request->get('ativo')){
             $query->where('ativo', '=' , $request->get('ativo'));

@@ -17,10 +17,11 @@ class ContatoController extends Controller{
      * @var request[offset]
      * @var request[limit]
      * @var request[nome]
+     * @var request[sobre_nome]
      * @var request[telefone]
      * @var request[email]
-     * @var request[celular]
-     * @var request[ativo]
+     * @var request[ativo] = S para sim N para nao
+     * @var request[data_nascimento]
     */
 
     public function index(Request $request){
@@ -39,11 +40,13 @@ class ContatoController extends Controller{
 	public function adicionar(Request $request){
 		$this->validarRequisicao($request);
         $contato = Contato::create([
-					'nome' => $request->get('nome'),
-					'email'=> $request->get('email'),
-					'telefone'=> $request->get('telefone'),
-					'celular'=> $request->get('celuar'),
-					'user_id' => $this->getUserId()
+					'nome'          => $request->get('nome'),
+					'sobre_nome'    => $request->get('sobre_nome'),
+					'email'         => $request->get('email'),
+					'ddd'           => $request->get('ddd'),
+					'telefone'      => $request->get('telefone'),
+					'data_nascimento'=> $request->get('data_nascimento'),
+					'user_id'       => $this->getUserId()
 				]);
 		return $this->success("O contato com o Id {$contato->id} foi criado com sucesso!", 201);
 	}
@@ -55,12 +58,12 @@ class ContatoController extends Controller{
 		}
 
 		$this->validarRequisicao($request);
-        $contato->nome 		    = $request->get('nome');
-        $contato->email 		= $request->get('email');
-        $contato->telefone 		= $request->get('telefone');
-        $contato->celular 		= $request->get('celular');
+        $contato->nome 		        = $request->get('nome');
+        $contato->email 		    = $request->get('email');
+        $contato->telefone 		    = $request->get('telefone');
+        $contato->data_nascimento   = $request->get('data_nascimento');
         $contato->save();
-		return $this->success("The post with with id {$contato->id} has been updated", 200);
+		return $this->success("O contato com {$contato->id} foi atualizado", 200);
 	}
 
 	public function deletar($id){
@@ -94,10 +97,9 @@ class ContatoController extends Controller{
 
 	public function validarRequisicao(Request $request){
 		$regras = [
-			'nome' => 'required',
-			'email' => 'required',
-			'telefone' => 'required',
-			'celular' => 'required',
+			'nome'      => 'required',
+			'email'     => 'required',
+			'telefone'  => 'required',
 		];
 		$this->validate($request, $regras);
 	}
