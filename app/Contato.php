@@ -24,6 +24,8 @@ class Contato extends Model{
 
 	protected $table    = "contato";
 
+    public $timestamps = false;
+
     /**
      * Define a one-to-many relationship with App\Comment
      *

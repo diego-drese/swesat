@@ -48,6 +48,12 @@ $app->get('/mensagem/{id}','MensagemController@carregar');
 $app->put('/mensagem/{id}','MensagemController@atualizar');
 $app->post('/mensagem','MensagemController@adicionar');
 
+// Agendamento
+$app->get('/agendamento','AgendamentoController@index');
+$app->get('/agendamento/{id}','AgendamentoController@carregar');
+$app->put('/agendamento/{id}','AgendamentoController@atualizar');
+$app->post('/agendamento','AgendamentoController@adicionar');
+
 
 // Posts
 $app->get('/posts','PostController@index');

@@ -31,7 +31,7 @@ class MensagemController extends Controller{
 	}
 
     public function carregar($id){
-        $contato = Mensagem::where("usuario_id", $this->getUserId())->find($id);
+        $contato = Mensagem::where("user_id", $this->getUserId())->find($id);
         if(!$contato){
             return $this->error("A mensagem com id {$id} nao existe", 404);
         }
@@ -44,7 +44,7 @@ class MensagemController extends Controller{
 		$dadosMensagem = [
             'nome'         => $request->get('nome'),
             'texto'        => $request->get('texto'),
-            'usuario_id'   => $this->getUserId()
+            'user_id'   => $this->getUserId()
         ];
 
         $mensagem = Mensagem::create($dadosMensagem);
@@ -52,7 +52,7 @@ class MensagemController extends Controller{
 	}
 
 	public function atualizar(Request $request, $id){
-        $mensagem = Mensagem::where("usuario_id", $this->getUserId())->find($id);
+        $mensagem = Mensagem::where("user_id", $this->getUserId())->find($id);
 		if(!$mensagem){
             return $this->error("O mensagem com id {$id} nao existe", 404);
 		}
@@ -65,7 +65,7 @@ class MensagemController extends Controller{
 	}
 
 	public function deletar($id){
-        $mensagem = Mensagem::where("usuario_id", $this->getUserId())->find($id);
+        $mensagem = Mensagem::where("user_id", $this->getUserId())->find($id);
         /**
          * Verifica se a mensagem possui um agendamento ativo
          */
@@ -77,7 +77,7 @@ class MensagemController extends Controller{
 	}
 
     public function ativar($id){
-        $mensagem = Mensagem::where("usuario_id", $this->getUserId())->find($id);
+        $mensagem = Mensagem::where("user_id", $this->getUserId())->find($id);
         if(!$mensagem){
             return $this->error("O mensagem com id {$id} nao existe", 404);
         }
@@ -87,7 +87,7 @@ class MensagemController extends Controller{
     }
 
     public function desativar($id){
-        $mensagem = Mensagem::where("usuario_id", $this->getUserId())->find($id);
+        $mensagem = Mensagem::where("user_id", $this->getUserId())->find($id);
         if(!$mensagem){
             return $this->error("O mensagem com id {$id} nao existe", 404);
         }
