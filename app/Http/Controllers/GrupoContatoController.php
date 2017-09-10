@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Contato;
 use App\Grupo;
 use App\GrupoContato;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
 class GrupoContatoController extends Controller{
@@ -23,75 +24,55 @@ class GrupoContatoController extends Controller{
      * @var request[id_contato]
     */
 
-    public function grupoContato($id_contato){
-        $contato = Contato::find($id_contato);
-        if(isset($contato->id)){
-            $contato->grupos= GrupoContato::carregaTodosOsGruposDoContato($this->getUserId(), $contato->id);
+    public function contatoGrupo(Request $request, $id_grupo){
+        $contatoGrupo = GrupoContato::carregaContatosDoGrupoPaginado($this->getUserId(), $id_grupo, $request);
+        return $this->successList($contatoGrupo, GrupoContato::carregaTotalContatosDoGrupo($this->getUserId(), $id_grupo, $request), 200);
+	}
+
+	public function grupoContato(Request $request, $id_contato){
+        $grupoContato = GrupoContato::carregaGruposDoContatoPaginado($this->getUserId(), $id_contato, $request);
+        return $this->successList($grupoContato, GrupoContato::carregaTotalGruposDoContato($this->getUserId(), $id_contato, $request), 200);
+	}
+
+
+
+    public function associaContatoGrupo($contato_id, $grupo_id){
+	    try{
+            GrupoContato::insert(['grupo_id' => $grupo_id, 'contato_id' => $contato_id]);
+            return $this->successList(['mens'=>'Contato associado com sucesso'], 1, 200);
+        }catch (QueryException $e){
+            return $this->successList(['mens'=>'O contato ja estava associado'], 1, 200);
         }
-        return $this->successList($contato, 1, 200);
-	}
-
-    public function contatoGrupo(Request $request){
 
     }
-
-    public function associa_contato_ao_grupo($contato_id, $grupo_id){
-
-    }
-    public function associa_grupo_ao_contato($grupo_id,$contato_id){
-
-
-    }
-
-	public function adicionar(Request $request){
-		$this->validarRequisicao($request);
-        $contato = Grupo::create([
-					'nome'          => $request->get('nome'),
-					'user_id'       => $this->getUserId()
-				]);
-		return $this->success("O grupo com o Id {$contato->id} foi criado com sucesso!", 201);
-	}
-
-	public function atualizar(Request $request, $id){
-        $contato = Grupo::where("user_id", $this->getUserId())->find($id);
-		if(!$contato){
-            return $this->error("O grupo com id {$id} nao existe", 404);
-		}
-
-		$this->validarRequisicao($request);
-        $contato->nome 		        = $request->get('nome');
-        $contato->save();
-		return $this->success("O grupo com {$contato->id} foi atualizado", 200);
-	}
-
-	public function deletar($id){
-        $contato = Grupo::where("user_id", $this->getUserId())->find($id);
-		if(!$contato){
-            return $this->error("O grupo com id {$id} nao existe", 404);
-		}
-        $contato->delete();
-		return $this->success("O Grupo com id {$id} foi removido com sucesso", 200);
-	}
-
-    public function ativar($id){
-        $contato = Grupo::where("user_id", $this->getUserId())->find($id);
-        if(!$contato){
-            return $this->error("O grupo com id {$id} nao existe", 404);
+    public function desassociaContatoGrupo($contato_id, $grupo_id){
+        try{
+            GrupoContato::where('grupo_id',$grupo_id)->where('contato_id', $contato_id)->delete();
+            return $this->successList(['mens'=>'Contato desassociado com sucesso'], 1, 200);
+        }catch (QueryException $e){
+            return $this->successList(['mens'=>'O contato ja estava desassociado'], 1, 200);
         }
-        $contato->ativo 		= "S";
-        $contato->save();
-        return $this->success("O grupo {$contato->id} foi ativado com sucesso", 200);
     }
 
-    public function desativar($id){
-        $contato = Grupo::where("user_id", $this->getUserId())->find($id);
-        if(!$contato){
-            return $this->error("O grupo com id {$id} nao existe", 404);
+    public function associaGrupoContato($grupo_id, $contato_id){
+        try{
+            GrupoContato::insert(['grupo_id' => $grupo_id, 'contato_id' => $contato_id]);
+            return $this->successList(['mens'=>'Grupo associado com sucesso'], 1, 200);
+        }catch (QueryException $e){
+            return $this->successList(['mens'=>'O Grupo ja estava associado'], 1, 200);
         }
-        $contato->ativo 		= "N";
-        $contato->save();
-        return $this->success("O grupo {$contato->id} foi ativado com sucesso", 200);
     }
+
+    public function desassociaGrupoContato($grupo_id, $contato_id){
+        try{
+            GrupoContato::where('grupo_id',$grupo_id)->where('contato_id', $contato_id)->delete();
+            return $this->successList(['mens'=>'Grupo desassociado com sucesso'], 1, 200);
+        }catch (QueryException $e){
+            return $this->successList(['mens'=>'O Grupo ja estava desassociado'], 1, 200);
+        }
+
+    }
+
 
 	public function validarRequisicao(Request $request){
 		$regras = [

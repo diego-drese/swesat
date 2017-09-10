@@ -28,41 +28,49 @@ class GrupoContato extends Model{
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    protected static function setaCondicoes($query, Request $request){
-        if($request->get('grupo_id')){
-            if(is_array($request->get('grupo_id'))){
-                $query->whereIn('grupo_id', $request->get('grupo_id'));
-            }else{
-                $query->where('grupo_id', $request->get('grupo_id'));
-            }
-        }
-        if($request->get('contato_id')){
-            if(is_array($request->get('contato_id'))){
-                $query->whereIn('contato_id', $request->get('contato_id'));
-            }else{
-                $query->where('contato_id', $request->get('contato_id'));
-            }
-        }
-        return $query;
+    public static function carregaContatosDoGrupoPaginado($userId=0, $grupoId=0, Request $request){
+        $query = self::where('grupo_id', $grupoId)
+                    ->where('user_id', $userId)
+                    ->join('contato', "contato.id", "contato_id")
+                    ->limit($request->get('limit',10))
+                    ->skip($request->get('offset',0));
+        return $query->select("id", "nome", "ativo")->get();
     }
 
-    public static function carregaPaginado($userId=0, Request $request, $offset=0, $limit=10){
-        $query = self::limit($limit, $offset)->where("user_id", $userId);
-        $query = self::setaCondicoes($query, $request);
-        return $query->get();
-    }
+    public static function carregaTotalContatosDoGrupo($userId=0, $grupoId=0, Request $request){
+        $query = self::where('grupo_id', $grupoId)
+            ->where('user_id', $userId)
+            ->join('contato', "contato.id", "contato_id");
 
-    public static function carregaTotal($userId=0, Request $request){
-        $query = self::where('user_id',$userId);
-        $query = self::setaCondicoes($query, $request);
         return $query->count();
     }
+
+    public static function carregaGruposDoContatoPaginado($userId=0, $contatoId=0, Request $request){
+        $query = self::where('contato_id', $contatoId)
+                    ->where('user_id', $userId)
+                    ->join('grupo', "grupo.id", "grupo_id")
+                    ->limit($request->get('limit',10))
+                    ->skip($request->get('offset',0));
+        return $query->select("grupo.id", "grupo.nome", "grupo.ativo")->get();
+    }
+
+    public static function carregaTotalGruposDoContato($userId=0, $contatoId=0, Request $request){
+        $query = self::where('contato_id', $contatoId)
+            ->where('user_id', $userId)
+            ->join('grupo', "grupo.id", "grupo_id");
+        return $query->count();
+    }
+
+
+
 
     public static function carregaTodosOsGruposDoContato($userId=0, $contatoId=0){
         $query = self::where('contato_id', $contatoId);
         $query = self::where('usuario_id', $userId);
         $query = self::join('grupo', "grupo.id", "grupo_id");
-        return $query->get();
+        return $query->select("id", "nome", "ativo")->get();
     }
+
+
 
 }

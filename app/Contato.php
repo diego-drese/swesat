@@ -30,8 +30,8 @@ class Contato extends Model{
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     protected static function setaCondicoes($query, Request $request){
-        if($request->get('name')){
-            $query->where('nome', 'like' , "%".$request->get('name')."%");
+        if($request->get('nome')){
+            $query->where('nome', 'like' , "%".$request->get('nome')."%");
         }
         if($request->get('sobre_nome')){
             $query->where('sobre_nome', 'like' , "%".$request->get('sobre_nome')."%");
@@ -52,7 +52,7 @@ class Contato extends Model{
     }
 
     public static function carregaPaginado($userId=0, Request $request, $offset=0, $limit=10){
-        $query = self::limit($limit, $offset)->where("user_id", $userId);
+        $query = self::limit($limit)->skip($offset)->where("user_id", $userId);
         $query = self::setaCondicoes($query, $request);
         return $query->get();
     }

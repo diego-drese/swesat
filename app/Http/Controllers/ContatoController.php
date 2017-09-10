@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Contato;
+use App\GrupoContato;
 use Illuminate\Http\Request;
 
 class ContatoController extends Controller{
@@ -34,6 +35,7 @@ class ContatoController extends Controller{
         if(!$contato){
             return $this->error("O contato com id {$id} nao existe", 404);
         }
+        $contato->grupos = GrupoContato::carregaGruposDoContato($this->getUserId(), $id);
         return $this->success($contato, 200);
     }
 
