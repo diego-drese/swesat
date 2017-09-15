@@ -48,11 +48,11 @@ class Agendamento extends Model{
             "mensagem.texto as mensagem_texto",
             "contato.nome as contato_nome",
             "grupo.nome as grupo_nome")
-            ->limit($limit)->skip($offset)
             ->join("mensagem", "mensagem.id","mensagem_id")
             ->leftJoin("contato", "contato.id","contato_id")
             ->leftJoin("grupo", "grupo.id","grupo_id")
-            ->where("agendamento.user_id", $userId);
+            ->where("agendamento.user_id", $userId)
+            ->limit($limit)->skip($offset);
         $query = self::setaCondicoes($query, $request);
         return $query->get();
     }

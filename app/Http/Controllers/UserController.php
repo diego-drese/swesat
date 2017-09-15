@@ -24,7 +24,6 @@ class UserController extends Controller{
 	public function store(Request $request){
 
 		$this->validateRequest($request);
-
 		$user = User::create([
 					'email' => $request->get('email'),
 					'password'=> Hash::make($request->get('password'))
@@ -53,7 +52,6 @@ class UserController extends Controller{
 		}
 
 		$this->validateRequest($request);
-
 		$user->email 		= $request->get('email');
 		$user->password 	= Hash::make($request->get('password'));
 
@@ -81,7 +79,6 @@ class UserController extends Controller{
 			'email' => 'required|email|unique:users', 
 			'password' => 'required|min:6'
 		];
-
 		$this->validate($request, $rules);
 	}
 
@@ -89,7 +86,6 @@ class UserController extends Controller{
 
 		$resource = "users";
 		// $user     = User::find($this->getArgs($request)["user_id"]);
-
 		return $this->authorizeUser($request, $resource);
 	}
 }

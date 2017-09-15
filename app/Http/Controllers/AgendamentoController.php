@@ -63,7 +63,7 @@ class AgendamentoController extends Controller{
 
 		$this->validarRequisicao($request);
         $Agendamento->nome 		    = $request->get('nome');
-        $Agendamento->texto 		    = $request->get('texto');
+        $Agendamento->texto 		= $request->get('texto');
         $Agendamento->save();
 		return $this->success("O Agendamento com {$Agendamento->id} foi atualizado", 200);
 	}
@@ -102,10 +102,10 @@ class AgendamentoController extends Controller{
 
 	public function validarRequisicao(Request $request){
 		$regras = [
-			'data_disparo'      => 'required',
+			'data_disparo'  => 'required',
 			'data_fim'      => 'required',
-			'mensagem_id'      => 'required',
-			'tipo'      => 'required',
+			'mensagem_id'   => 'required',
+			'tipo'          => 'required',
 		];
 
 		$this->validate($request, $regras);
