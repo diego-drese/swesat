@@ -14,6 +14,10 @@ class Agendamento extends Model{
      * @var array
      */
 	protected $fillable = ['mensagem_id',  'user_id', 'contato_id', 'grupo_id', 'data_disparo', 'data_fim', 'tipo'];
+    const AG = "AGUARDANDO";
+    const PR = "PROCESSANDO";
+    const FZ = "FINALIZADO";
+    const ERR = "ERRO";
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -61,6 +65,15 @@ class Agendamento extends Model{
         $query = self::where('user_id', $userId);
         $query = self::setaCondicoes($query, $request);
         return $query->count();
+    }
+
+    public static function getAgendamentosParaProcessar(){
+
+        $query = self::where('data_disparo', '<=', date('Y-m-d H:i:s'))
+                    ->where('status_disparo', Agendamento::AG);
+
+        return $query->get();
+
     }
 
 }
