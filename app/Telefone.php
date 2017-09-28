@@ -48,4 +48,9 @@ class Telefone extends Model{
         return $query->count();
     }
 
+    public static function pegaUsuarioPorToken($token){
+        $query = self::where('token',$token);
+        return $query->first();
+    }
+
 }

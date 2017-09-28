@@ -22,7 +22,7 @@ $app->get('/contato/ativar/{id}','ContatoController@ativar');
 $app->get('/contato/desativar/{id}','ContatoController@desativar');
 $app->post('/contato','ContatoController@adicionar');
 $app->put('/contato/{id}', 'ContatoController@atualizar');
-$app->delete('/contato/{id}', 'ContatoController@deletar');
+//$app->delete('/contato/{id}', 'ContatoController@deletar');
 
 // Grupos
 $app->get('/grupo','GrupoController@index');
@@ -31,37 +31,39 @@ $app->get('/grupo/ativar/{id}','GrupoController@ativar');
 $app->get('/grupo/desativar/{id}','GrupoController@desativar');
 $app->post('/grupo','GrupoController@adicionar');
 $app->put('/grupo/{id}', 'GrupoController@atualizar');
-$app->delete('/grupo/{id}', 'GrupoController@deletar');
+//$app->delete('/grupo/{id}', 'GrupoController@deletar');
 
 // Grupos Contatos
 $app->get('/contato-grupo/{id}','GrupoContatoController@contatoGrupo');
 $app->get('/grupo-contato/{id}','GrupoContatoController@grupoContato');
-$app->put('/associa-contato-grupo/{contato_id}/{grupo_id}','GrupoContatoController@associaContatoGrupo');
-$app->put('/desassocia-contato-grupo/{contato_id}/{grupo_id}','GrupoContatoController@desassociaContatoGrupo');
-$app->put('/associa-grupo-contato/{grupo_id}/{contato_id}','GrupoContatoController@associaGrupoContato');
-$app->put('/desassocia-grupo-contato/{grupo_id}/{contato_id}','GrupoContatoController@desassociaGrupoContato');
+$app->get('/associa-contato-grupo/{contato_id}/{grupo_id}','GrupoContatoController@associaContatoGrupo');
+$app->get('/desassocia-contato-grupo/{contato_id}/{grupo_id}','GrupoContatoController@desassociaContatoGrupo');
+$app->get('/associa-grupo-contato/{grupo_id}/{contato_id}','GrupoContatoController@associaGrupoContato');
+$app->get('/desassocia-grupo-contato/{grupo_id}/{contato_id}','GrupoContatoController@desassociaGrupoContato');
 
 
 // Mensagens
 $app->get('/mensagem','MensagemController@index');
 $app->get('/mensagem/{id}','MensagemController@carregar');
-$app->put('/mensagem/{id}','MensagemController@atualizar');
 $app->post('/mensagem','MensagemController@adicionar');
+$app->put('/mensagem/{id}','MensagemController@atualizar');
+
 
 // Agendamento
 $app->get('/agendamento','AgendamentoController@index');
 $app->get('/agendamento/{id}','AgendamentoController@carregar');
-$app->put('/agendamento/{id}','AgendamentoController@atualizar');
 $app->post('/agendamento','AgendamentoController@adicionar');
+$app->put('/agendamento/{id}','AgendamentoController@atualizar');
 
 // Telefone
 $app->get('/telefone','TelefoneController@index');
 $app->get('/telefone/{id}','TelefoneController@carregar');
-$app->put('/telefone/{id}','TelefoneController@atualizar');
 $app->post('/telefone','TelefoneController@adicionar');
-
+$app->put('/telefone/{id}','TelefoneController@atualizar');
 
 // Request an access token
 $app->post('/oauth/access_token', function() use ($app){
     return response()->json($app->make('oauth2-server.authorizer')->issueAccessToken());
 });
+
+$app->get('/pegar-mensagem','DisparoController@pegarMensagem');

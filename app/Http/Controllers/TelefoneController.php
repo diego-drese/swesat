@@ -16,8 +16,7 @@ class TelefoneController extends Controller{
      *
      * @var request[offset]
      * @var request[limit]
-     * @var request[nome]
-     * @var request[telefone]
+     * @var request[numero]
     */
 
     public function index(Request $request){

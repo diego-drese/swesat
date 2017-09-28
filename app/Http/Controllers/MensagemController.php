@@ -17,12 +17,8 @@ class MensagemController extends Controller{
      *
      * @var request[offset]
      * @var request[limit]
-     * @var request[nome]
-     * @var request[sobre_nome]
-     * @var request[telefone]
-     * @var request[email]
-     * @var request[ativo] = S para sim N para nao
-     * @var request[data_nascimento]
+     * @var request[texto]
+     * @var request[tipo]
     */
 
     public function index(Request $request){
