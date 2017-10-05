@@ -13,37 +13,57 @@
 
 // Home page
 $app->get('/', function () use ($app) {
-    return $app->version();
+    return response()->json(['app'=>'swesat', 'version' => "0.0.1", "last_update"=> '2017-08-01'], 200);
 });
+// Contatos
+$app->get('/contato','ContatoController@index');
+$app->get('/contato/{id}','ContatoController@carregar');
+$app->get('/contato/ativar/{id}','ContatoController@ativar');
+$app->get('/contato/desativar/{id}','ContatoController@desativar');
+$app->post('/contato','ContatoController@adicionar');
+$app->put('/contato/{id}', 'ContatoController@atualizar');
+//$app->delete('/contato/{id}', 'ContatoController@deletar');
 
-// Posts
-$app->get('/posts','PostController@index');
-$app->post('/posts','PostController@store');
-$app->get('/posts/{post_id}','PostController@show');
-$app->put('/posts/{post_id}', 'PostController@update');
-$app->patch('/posts/{post_id}', 'PostController@update');
-$app->delete('/posts/{post_id}', 'PostController@destroy');
+// Grupos
+$app->get('/grupo','GrupoController@index');
+$app->get('/grupo/{id}','GrupoController@carregar');
+$app->get('/grupo/ativar/{id}','GrupoController@ativar');
+$app->get('/grupo/desativar/{id}','GrupoController@desativar');
+$app->post('/grupo','GrupoController@adicionar');
+$app->put('/grupo/{id}', 'GrupoController@atualizar');
+//$app->delete('/grupo/{id}', 'GrupoController@deletar');
 
-// Users
-$app->get('/users/', 'UserController@index');
-$app->post('/users/', 'UserController@store');
-$app->get('/users/{user_id}', 'UserController@show');
-$app->put('/users/{user_id}', 'UserController@update');
-$app->patch('/users/{user_id}', 'UserController@update');
-$app->delete('/users/{user_id}', 'UserController@destroy');
+// Grupos Contatos
+$app->get('/contato-grupo/{id}','GrupoContatoController@contatoGrupo');
+$app->get('/grupo-contato/{id}','GrupoContatoController@grupoContato');
+$app->get('/associa-contato-grupo/{contato_id}/{grupo_id}','GrupoContatoController@associaContatoGrupo');
+$app->get('/desassocia-contato-grupo/{contato_id}/{grupo_id}','GrupoContatoController@desassociaContatoGrupo');
+$app->get('/associa-grupo-contato/{grupo_id}/{contato_id}','GrupoContatoController@associaGrupoContato');
+$app->get('/desassocia-grupo-contato/{grupo_id}/{contato_id}','GrupoContatoController@desassociaGrupoContato');
 
-// Comments
-$app->get('/comments', 'CommentController@index');
-$app->get('/comments/{comment_id}', 'CommentController@show');
 
-// Comment(s) of a post
-$app->get('/posts/{post_id}/comments', 'PostCommentController@index');
-$app->post('/posts/{post_id}/comments', 'PostCommentController@store');
-$app->put('/posts/{post_id}/comments/{comment_id}', 'PostCommentController@update');
-$app->patch('/posts/{post_id}/comments/{comment_id}', 'PostCommentController@update');
-$app->delete('/posts/{post_id}/comments/{comment_id}', 'PostCommentController@destroy');
+// Mensagens
+$app->get('/mensagem','MensagemController@index');
+$app->get('/mensagem/{id}','MensagemController@carregar');
+$app->post('/mensagem','MensagemController@adicionar');
+$app->put('/mensagem/{id}','MensagemController@atualizar');
+
+
+// Agendamento
+$app->get('/agendamento','AgendamentoController@index');
+$app->get('/agendamento/{id}','AgendamentoController@carregar');
+$app->post('/agendamento','AgendamentoController@adicionar');
+$app->put('/agendamento/{id}','AgendamentoController@atualizar');
+
+// Telefone
+$app->get('/telefone','TelefoneController@index');
+$app->get('/telefone/{id}','TelefoneController@carregar');
+$app->post('/telefone','TelefoneController@adicionar');
+$app->put('/telefone/{id}','TelefoneController@atualizar');
 
 // Request an access token
 $app->post('/oauth/access_token', function() use ($app){
     return response()->json($app->make('oauth2-server.authorizer')->issueAccessToken());
 });
+
+$app->get('/pegar-mensagem','DisparoController@pegarMensagem');

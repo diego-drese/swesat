@@ -11,6 +11,17 @@
 |
 */
 
+$factory->define(App\User::class, function () {
+    $hasher = app()->make('hash');
+    return [
+        'name' => 'Admin',
+        'email' => 'admin@admin.com.br',
+        'password' => $hasher->make("senhaAdmin"),
+        'is_admin' => 1
+    ];
+});
+
+/*
 $factory->define(App\Post::class, function (Faker\Generator $faker) {
     return [
         'title' => $faker->sentence(4),
@@ -30,7 +41,7 @@ $factory->define(App\Comment::class, function (Faker\Generator $faker) {
 $factory->define(App\User::class, function (Faker\Generator $faker) {
 
     $hasher = app()->make('hash');
-    
+
     return [
         'name' => $faker->name,
         'email' => $faker->email,
@@ -38,3 +49,4 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'is_admin' => mt_rand(0, 1)
     ];
 });
+*/
