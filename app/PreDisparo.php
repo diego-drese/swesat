@@ -38,10 +38,11 @@ class PreDisparo extends Model{
             ->limit($limit)->skip($offset);
         $query = self::setaCondicoes($query, $request);
         $return = $query->get();
-        foreach ($return as $pre_disparo){
+        foreach ($return as $key=>$pre_disparo){
             $update_pre_disparo = self::find($pre_disparo->id);
             $update_pre_disparo->data_requisicao = date("Y-m-d H:i:s");
             $update_pre_disparo->save();
+            $return[$key]->next_message = 300;
         }
 
         return $return;
