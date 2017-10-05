@@ -26,8 +26,8 @@ class DisparoController extends BaseController{
      * @var request[data_nascimento]
      */
 
-    public function pegarMensagem(Request $request){
-        $token = $request->get("token");
+    public function pegarMensagem($token = null,Request $request){
+        $token = $token ? $token : $request->get("token");
         if(empty($token)){
             return $this->error("Token para disparo nao encontrado", 400);
         }
@@ -53,6 +53,7 @@ class DisparoController extends BaseController{
     }
 
     public function successList($data, $recordsTotal=0, $code){
+
         return response()->json(['data' => $data, 'recordsTotal' => $recordsTotal, 'recordsFiltered' => count($data)], $code);
     }
     /**
