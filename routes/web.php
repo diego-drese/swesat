@@ -67,4 +67,6 @@ $app->post('/oauth/access_token', function() use ($app){
 });
 
 $app->get('/pegar-mensagem','DisparoController@pegarMensagem');
+$app->post('/pegar-mensagem','DisparoController@pegarMensagem');
 $app->get('/pegar-mensagem/{token}','DisparoController@pegarMensagem');
+$app->post('/pegar-mensagem/{token}','DisparoController@pegarMensagem');
