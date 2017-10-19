@@ -12,6 +12,7 @@
 */
 
 // Home page
+
 $app->get('/', function () use ($app) {
     return response()->json(['app'=>'swesat', 'version' => "0.0.1", "last_update"=> '2017-08-01'], 200);
 });
