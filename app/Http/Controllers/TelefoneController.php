@@ -49,10 +49,10 @@ class TelefoneController extends Controller{
 		}
 
 		$this->validarRequisicao($request);
-        $telefone->telefone = $request->get('telefone');
+        $telefone->numero = $request->get('numero');
         $newToken = str_random(25);
         if($request->get('token')){
-            $telefone->token = str_random(25);
+            $telefone->token = $request->get('token');
         }
         $telefone->save();
 		return $this->success("O Telefone com {$telefone->id} foi atualizado seu novo token é:[{$newToken}]", 200);

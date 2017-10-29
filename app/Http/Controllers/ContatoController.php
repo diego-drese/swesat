@@ -35,7 +35,7 @@ class ContatoController extends Controller{
         if(!$contato){
             return $this->error("O contato com id {$id} nao existe", 404);
         }
-        $contato->grupos = GrupoContato::carregaGruposDoContato($this->getUserId(), $id);
+        $contato->grupos = GrupoContato::carregaTodosOsGruposDoContato($this->getUserId(), $id);
         return $this->success($contato, 200);
     }
 
@@ -61,8 +61,10 @@ class ContatoController extends Controller{
 
 		$this->validarRequisicao($request);
         $contato->nome 		        = $request->get('nome');
+        $contato->sobre_nome 		= $request->get('sobre_nome');
         $contato->email 		    = $request->get('email');
         $contato->telefone 		    = $request->get('telefone');
+        $contato->ddd 		        = $request->get('ddd');
         $contato->data_nascimento   = $request->get('data_nascimento');
         $contato->save();
 		return $this->success("O contato com {$contato->id} foi atualizado", 200);

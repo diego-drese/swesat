@@ -30,8 +30,8 @@ class Grupo extends Model{
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     protected static function setaCondicoes($query, Request $request){
-        if($request->get('name')){
-            $query->where('nome', 'like' , "%".$request->get('name')."%");
+        if($request->get('nome')){
+            $query->where('nome', 'like' , "%".$request->get('nome')."%");
         }
         if($request->get('ativo')){
             $query->where('ativo', '=' , $request->get('ativo'));
