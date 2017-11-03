@@ -34,6 +34,7 @@ $app->get('/grupo/desativar/{id}','GrupoController@desativar');
 $app->post('/grupo','GrupoController@adicionar');
 $app->put('/grupo/{id}', 'GrupoController@atualizar');
 $app->post('/grupo/{id}', 'GrupoController@atualizar');
+
 //$app->delete('/grupo/{id}', 'GrupoController@deletar');
 
 // Grupos Contatos
@@ -43,6 +44,7 @@ $app->get('/associa-contato-grupo/{contato_id}/{grupo_id}','GrupoContatoControll
 $app->get('/desassocia-contato-grupo/{contato_id}/{grupo_id}','GrupoContatoController@desassociaContatoGrupo');
 $app->get('/associa-grupo-contato/{grupo_id}/{contato_id}','GrupoContatoController@associaGrupoContato');
 $app->get('/desassocia-grupo-contato/{grupo_id}/{contato_id}','GrupoContatoController@desassociaGrupoContato');
+$app->post('/associa-varios-grupo-contato/{id}', 'GrupoContatoController@associaVariosGruposContato');
 
 
 // Mensagens

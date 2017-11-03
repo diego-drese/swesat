@@ -73,6 +73,17 @@ class GrupoContatoController extends Controller{
 
     }
 
+    public function associaVariosGruposContato(Request $request, $contato_id){
+        try{
+            GrupoContato::where('contato_id', $contato_id)->delete();
+            foreach ($request->get('grupos') as $grupo){
+                GrupoContato::insert(['grupo_id' => $grupo, 'contato_id' => $contato_id]);
+            }
+            return $this->successList(['mens'=>'Grupo associado com sucesso'], 1, 200);
+        }catch (QueryException $e){
+            return $this->successList(['mens'=>'Erro associando grupo ao contato'], 1, 200);
+        }
+    }
 
 	public function validarRequisicao(Request $request){
 		$regras = [
