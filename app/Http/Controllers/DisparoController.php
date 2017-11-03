@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\PreDisparo;
 use App\Telefone;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Laravel\Lumen\Routing\Controller as BaseController;
 
 class DisparoController extends BaseController{
@@ -26,8 +27,9 @@ class DisparoController extends BaseController{
      * @var request[data_nascimento]
      */
 
-    public function pegarMensagem($token = null,Request $request){
+    public function pegarMensagem($token = null, Request $request){
         $token = $token ? $token : $request->get("token");
+        Log::info("Pegando mensagem pelo token[$token]");
         if(empty($token)){
             return $this->error("Token para disparo nao encontrado", 400);
         }
