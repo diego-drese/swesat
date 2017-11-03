@@ -50,7 +50,7 @@ class ContatoController extends Controller{
 					'data_nascimento'=> $request->get('data_nascimento'),
 					'user_id'       => $this->getUserId()
 				]);
-		return $this->success("O contato com o Id {$contato->id} foi criado com sucesso!", 201);
+		return $this->success(['mens'=>"O contato com o Id {$contato->id} foi criado com sucesso!", 'id'=>$contato->id], 201);
 	}
 
 	public function atualizar(Request $request, $id){
@@ -67,7 +67,7 @@ class ContatoController extends Controller{
         $contato->ddd 		        = $request->get('ddd');
         $contato->data_nascimento   = $request->get('data_nascimento');
         $contato->save();
-		return $this->success("O contato com {$contato->id} foi atualizado", 200);
+        return $this->success(['mens'=>"O contato com {$contato->id} foi atualizado", 'id'=>$contato->id], 201);
 	}
 
 	public function deletar($id){

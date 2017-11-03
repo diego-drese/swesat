@@ -49,7 +49,7 @@ class GrupoContato extends Model{
         $query = self::where('contato_id', $contatoId)
                     ->where('user_id', $userId)
                     ->join('grupo', "grupo.id", "grupo_id")
-                    ->limit($request->get('limit',10))
+                    ->limit($request->get('limit',100))
                     ->skip($request->get('offset',0));
         return $query->select("grupo.id", "grupo.nome", "grupo.ativo")->get();
     }
