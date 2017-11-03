@@ -68,6 +68,7 @@ $app->middleware([
 $app->routeMiddleware([
 	// 'auth' => App\Http\Middleware\Authenticate::class,
     'oauth' => \LucaDegasperi\OAuth2Server\Middleware\OAuthMiddleware::class,
+    'cors' => App\Http\Middleware\CorsMiddleware::class,
     // 'oauth-user'=> \LucaDegasperi\OAuth2Server\Middleware\OAuthUserOwnerMiddleware::class,
     'authorize' => App\Http\Middleware\Authorize::class,
 ]);
@@ -85,6 +86,7 @@ $app->routeMiddleware([
 
 // $app->register(App\Providers\AppServiceProvider::class);
 $app->register(App\Providers\AuthServiceProvider::class);
+$app->register(App\Providers\CatchAllOptionsRequestsProvider::class);
 $app->register(Illuminate\Redis\RedisServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 $app->register(\LucaDegasperi\OAuth2Server\Storage\FluentStorageServiceProvider::class);

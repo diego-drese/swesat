@@ -36,8 +36,8 @@ class PreDisparo extends Command
      * @return mixed
      */
     public function handle() {
-       $this->info("Processando");
-       Log::info("Testando");
+        $this->info("Processando pre disparo");
+        Log::info("Processando pre disparo");
        /////Carrega as mensagen para ser pre-carregadas
        $agendamentos = Agendamento::getAgendamentosParaProcessar();
        foreach ($agendamentos as $agendamento){

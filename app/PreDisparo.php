@@ -30,17 +30,17 @@ class PreDisparo extends Model{
         return $query;
     }
 
-    public static function carregaPaginado($userId=0, Request $request, $offset=0, $limit=10){
+    public static function carregaParaEnvio($userId=0, Request $request, $offset=0, $limit=10){
         $query = self::where("agendamento.user_id", $userId)
             ->whereNull('data_requisicao')
             ->select("pre_disparo.*")
             ->join("agendamento","agendamento.id","pre_disparo.agendamento_id")
             ->limit($limit)->skip($offset);
-        $query = self::setaCondicoes($query, $request);
         $return = $query->get();
         foreach ($return as $key=>$pre_disparo){
             $update_pre_disparo = self::find($pre_disparo->id);
-            $update_pre_disparo->data_requisicao = date("Y-m-d H:i:s");
+            $update_pre_disparo->data_requisicao    = date("Y-m-d H:i:s");
+            $update_pre_disparo->status_envio       = 'SOLICITADO';
             $update_pre_disparo->save();
             $return[$key]->next_message = 300;
         }
@@ -54,4 +54,15 @@ class PreDisparo extends Model{
         return $query->count();
     }
 
+    public static function carregaTotalEnviado($agendamento){
+        self::where('agendamento_id', $agendamento->id)
+            ->where('status_envio', Agendamento::AG)
+            ->count();
+    }
+
+    public static function atualizaDisparosNaoEnviados($agendamento){
+        self::where('agendamento_id', $agendamento->id)
+              ->where('status_envio','AGUARDANDO')
+              ->update(['status_envio'=>'NAOENVIADO']);
+    }
 }

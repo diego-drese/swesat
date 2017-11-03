@@ -13,7 +13,7 @@ class Agendamento extends Model{
      *
      * @var array
      */
-	protected $fillable = ['mensagem_id',  'user_id', 'contato_id', 'grupo_id', 'data_disparo', 'data_fim', 'tipo'];
+	protected $fillable = ['id','mensagem_id',  'user_id', 'contato_id', 'grupo_id', 'data_disparo', 'data_fim', 'tipo'];
     const AG = "AGUARDANDO";
     const PR = "PROCESSANDO";
     const FZ = "FINALIZADO";
@@ -71,7 +71,12 @@ class Agendamento extends Model{
 
         $query = self::where('data_disparo', '<=', date('Y-m-d H:i:s'))
                     ->where('status_disparo', Agendamento::AG);
+        return $query->get();
 
+    }
+    public static function getAgendamentosEncerrados(){
+        $query = self::where('data_fim', '<=', date('Y-m-d H:i:s'))
+            ->where('status_disparo', Agendamento::PR);
         return $query->get();
 
     }
