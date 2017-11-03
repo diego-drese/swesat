@@ -25,11 +25,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-//        $schedule->command('swesat:pre_disparo')
-//            ->everyMinute()
-//            ->withoutOverlapping()
-//            //->unlessBetween('23:00', '4:00')
-//            ->sendOutputTo(storage_path()."/logs/schedule.log",true);
+        $schedule->command('swesat:pre_disparo')
+            ->everyMinute()
+            ->withoutOverlapping()
+            //->unlessBetween('23:00', '4:00')
+            ->sendOutputTo(storage_path()."/logs/schedule.log",true);
 
         $schedule->command('swesat:finaliza_agendamento')
             ->everyMinute()
