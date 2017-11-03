@@ -47,7 +47,7 @@ class DisparoController extends BaseController{
             }
         }
         file_put_contents($pathFile, "Carregando");
-        $disparos = PreDisparo::carregaPaginado($usuario->user_id, $request, $request->get('offset', 0), $request->get('limit', 10));
+        $disparos = PreDisparo::carregaParaEnvio($usuario->user_id, $request, $request->get('offset', 0), $request->get('limit', 10));
         unlink($pathFile);
         return $this->successList($disparos, PreDisparo::carregaTotal($usuario->user_id, $request), 200);
     }

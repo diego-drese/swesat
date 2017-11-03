@@ -28,7 +28,17 @@ class AgendamentoController extends Controller{
 	}
 
     public function carregar($id){
-        $contato = Agendamento::where("user_id", $this->getUserId())->find($id);
+        $contato = Agendamento::select("agendamento.*",
+            "mensagem.nome as mensagem_nome",
+            "mensagem.texto as mensagem_texto",
+            "contato.nome as contato_nome",
+            "grupo.nome as grupo_nome")
+            ->join("mensagem", "mensagem.id","mensagem_id")
+            ->leftJoin("contato", "contato.id","contato_id")
+            ->leftJoin("grupo", "grupo.id","grupo_id")
+            ->where("agendamento.user_id", $this->getUserId())
+            ->where("agendamento.id", $id)
+            ->first();
         if(!$contato){
             return $this->error("A Agendamento com id {$id} nao existe", 404);
         }
@@ -45,6 +55,7 @@ class AgendamentoController extends Controller{
             'tipo'          => $request->get('tipo'),
             'contato_id'    => $request->get('contato_id'),
             'grupo_id'      => $request->get('grupo_id'),
+            'obs'           => $request->get('obs'),
             'user_id'       => $this->getUserId()
         ];
 
@@ -53,14 +64,19 @@ class AgendamentoController extends Controller{
 	}
 
 	public function atualizar(Request $request, $id){
-        $Agendamento = Agendamento::where("user_id", $this->getUserId())->find($id);
+        $Agendamento = Agendamento::where("user_id", $this->getUserId())->where("status_disparo",'AGUARDANDO')->find($id);
 		if(!$Agendamento){
-            return $this->error("O Agendamento com id {$id} nao existe", 404);
+            return $this->error("O Agendamento com id {$id} nao existe ou nao esta com os status AGUARDANDO", 404);
 		}
 
 		$this->validarRequisicao($request);
-        $Agendamento->nome 		    = $request->get('nome');
-        $Agendamento->texto 		= $request->get('texto');
+        $Agendamento->data_disparo  = $request->get('data_disparo');
+        $Agendamento->data_fim 		= $request->get('data_fim');
+        $Agendamento->mensagem_id   = $request->get('mensagem_id');
+        $Agendamento->tipo          = $request->get('tipo');
+        $Agendamento->contato_id    = $request->get('contato_id');
+        $Agendamento->grupo_id      = $request->get('grupo_id');
+        $Agendamento->obs           = $request->get('obs');
         $Agendamento->save();
 		return $this->success("O Agendamento com {$Agendamento->id} foi atualizado", 200);
 	}

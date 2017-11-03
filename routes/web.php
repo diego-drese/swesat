@@ -72,7 +72,8 @@ $app->post('/oauth/access_token', function() use ($app){
     return response()->json($app->make('oauth2-server.authorizer')->issueAccessToken());
 });
 
-$app->get('/pegar-mensagem','DisparoController@pegarMensagem');
-$app->post('/pegar-mensagem','DisparoController@pegarMensagem');
+$app->get('/ultimos-disparos','DisparoControllerOauth@index');
+
 $app->get('/pegar-mensagem/{token}','DisparoController@pegarMensagem');
 $app->post('/pegar-mensagem/{token}','DisparoController@pegarMensagem');
+
