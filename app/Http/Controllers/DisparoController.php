@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Agendamento;
 use App\PreDisparo;
 use App\Telefone;
 use Illuminate\Http\Request;
@@ -35,6 +36,7 @@ class DisparoController extends BaseController{
         }
         $usuario = Telefone::pegaUsuarioPorToken($token);
         if(empty($usuario)){
+            Log::error("Usuario nao encontrado para o token[{$token}]");
             return $this->error("Usuario nao encontrado para o token[{$token}]", 200);
         }
 
@@ -51,7 +53,39 @@ class DisparoController extends BaseController{
         file_put_contents($pathFile, "Carregando");
         $disparos = PreDisparo::carregaParaEnvio($usuario->user_id, $request, $request->get('offset', 0), $request->get('limit', 10));
         unlink($pathFile);
+        Log::info("Disparos encontrados", [$disparos]);
         return $this->successList($disparos, PreDisparo::carregaTotal($usuario->user_id, $request), 200);
+    }
+
+    public function notificarMensagem($notificacao, $token = null, $id = null, Request $request){
+        $token = $token ? $token : $request->get("token");
+        Log::info("Notificando envio pelo[$token]");
+        if(empty($token)){
+            return $this->error("Token para disparo nao encontrado", 400);
+        }
+        $usuario = Telefone::pegaUsuarioPorToken($token);
+        if(empty($usuario)){
+            Log::error("Usuario nao encontrado para o token[{$token}]");
+            return $this->error("Usuario nao encontrado para o token[{$token}]", 200);
+        }
+
+        if(!$id){
+            Log::error("Id nao encontrado[{$id}]");
+            return $this->error("Id nao encontrado[{$id}]", 200);
+        }
+
+        if(!$notificacao || ($notificacao!="ENVIADO" || $notificacao!="NAOENVIADO")){
+            Log::error("Notificacao invalida[{$notificacao}]");
+            return $this->error("Notificacao invalida[{$notificacao}]", 200);
+        }
+
+        PreDisparo::where("id", $id)->update(['status_envio' => $notificacao]);
+        if($notificacao=="ENVIADO"){
+            $predisparo = PreDisparo::where("id", $id)->first();
+            Agendamento::where('id', $predisparo->agendamento_id)->increment('total_disparo');
+        }
+
+        return $this->successList(['mens'=>"PreDisparo atualizado com sucesso"], 0, 200);
     }
 
     public function successList($data, $recordsTotal=0, $code){
