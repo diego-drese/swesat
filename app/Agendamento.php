@@ -56,7 +56,8 @@ class Agendamento extends Model{
             ->leftJoin("contato", "contato.id","contato_id")
             ->leftJoin("grupo", "grupo.id","grupo_id")
             ->where("agendamento.user_id", $userId)
-            ->limit($limit)->skip($offset);
+            ->limit($limit)->skip($offset)
+            ->orderBy("agendamento.data_disparo", "DESC");
         $query = self::setaCondicoes($query, $request);
         return $query->get();
     }
