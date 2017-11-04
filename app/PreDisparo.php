@@ -56,7 +56,7 @@ class PreDisparo extends Model{
 
     public static function carregaTotalEnviado($agendamento){
         $count = self::where('agendamento_id', $agendamento->id)
-            ->where('status_envio', Agendamento::AG)
+            ->where('status_envio', 'ENVIADO')
             ->count();
         return $count ? $count : 0;
     }
