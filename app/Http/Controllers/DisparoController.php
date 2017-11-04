@@ -53,7 +53,7 @@ class DisparoController extends BaseController{
         file_put_contents($pathFile, "Carregando");
         $disparos = PreDisparo::carregaParaEnvio($usuario->user_id, $request, $request->get('offset', 0), $request->get('limit', 10));
         unlink($pathFile);
-        Log::info("Disparos encontrados", [$disparos]);
+        Log::info("Disparos encontrados", [count($disparos)]);
         return $this->successList($disparos, PreDisparo::carregaTotal($usuario->user_id, $request), 200);
     }
 
