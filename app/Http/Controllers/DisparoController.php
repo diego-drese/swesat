@@ -74,7 +74,7 @@ class DisparoController extends BaseController{
             return $this->error("Id nao encontrado[{$id}]", 200);
         }
 
-        if(!$notificacao || ($notificacao!="ENVIADO" || $notificacao!="NAOENVIADO")){
+        if(!$notificacao || ($notificacao!="ENVIADO" && $notificacao!="NAOENVIADO")){
             Log::error("Notificacao invalida[{$notificacao}]");
             return $this->error("Notificacao invalida[{$notificacao}]", 200);
         }
