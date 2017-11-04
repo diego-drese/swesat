@@ -79,3 +79,6 @@ $app->get('/ultimos-disparos','DisparoControllerOauth@index');
 $app->get('/pegar-mensagem/{token}','DisparoController@pegarMensagem');
 $app->post('/pegar-mensagem/{token}','DisparoController@pegarMensagem');
 
+$app->get('/notificar-mensagem/{notificacao}/{token}/{id}','DisparoController@notificarMensagem');
+$app->post('/notificar-mensagem/{notificacao}{token}/{id}','DisparoController@notificarMensagem');
+
