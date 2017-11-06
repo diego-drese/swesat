@@ -23,7 +23,7 @@ class Grupo extends Model{
 	protected $hidden   = ['data_criacao', 'data_atualizacao'];
 
 	protected $table    = "grupo";
-
+    public $timestamps  = false;
     /**
      * Define a one-to-many relationship with App\Comment
      *
