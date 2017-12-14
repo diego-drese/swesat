@@ -1,7 +1,5 @@
 <?php 
-
 namespace App\Http\Controllers;
-
 use App\Grupo;
 use Illuminate\Http\Request;
 
@@ -9,7 +7,6 @@ class GrupoController extends Controller{
 
 	public function __construct(){
 		$this->middleware('oauth');
-		//$this->middleware('authorize:' . __CLASS__, ['except' => ['index', 'show', 'store']]);
 	}
     /**
      * Request

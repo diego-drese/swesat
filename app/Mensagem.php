@@ -1,34 +1,14 @@
 <?php 
-
 namespace App;
-
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
-use phpDocumentor\Reflection\Types\Self_;
 
 class Mensagem extends Model{
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
 	protected $fillable = ['id',  'user_id', 'nome', 'texto'];
-
-    /**
-     * The attributes excluded from the model's JSON form.
-     *
-     * @var array
-     */
 	protected $hidden   = ['data_criacao', 'data_atualizacao'];
 	protected $table    = "mensagem";
     public $timestamps = false;
 
-    /**
-     * Define a one-to-many relationship with App\Comment
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
     protected static function setaCondicoes($query, Request $request){
         if($request->get('texto')){
             $query->where('texto', 'like' , "%".$request->get('nome')."%");

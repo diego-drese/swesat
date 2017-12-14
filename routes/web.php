@@ -24,7 +24,6 @@ $app->get('/contato/desativar/{id}','ContatoController@desativar');
 $app->post('/contato','ContatoController@adicionar');
 $app->put('/contato/{id}', 'ContatoController@atualizar');
 $app->post('/contato/{id}', 'ContatoController@atualizar');
-//$app->delete('/contato/{id}', 'ContatoController@deletar');
 
 // Grupos
 $app->get('/grupo','GrupoController@index');
@@ -75,7 +74,6 @@ $app->post('/oauth/access_token', function() use ($app){
 });
 
 $app->get('/ultimos-disparos','DisparoControllerOauth@index');
-
 $app->get('/pegar-mensagem/{token}','DisparoController@pegarMensagem');
 $app->post('/pegar-mensagem/{token}','DisparoController@pegarMensagem');
 
