@@ -1,16 +1,10 @@
 <?php 
-
 namespace App\Http\Controllers;
-
-
 use App\Mensagem;
 use Illuminate\Http\Request;
-
 class MensagemController extends Controller{
-
 	public function __construct(){
 		$this->middleware('oauth');
-		//$this->middleware('authorize:' . __CLASS__, ['except' => ['index', 'show', 'store']]);
 	}
     /**
      * Request
@@ -31,7 +25,6 @@ class MensagemController extends Controller{
         if(!$contato){
             return $this->error("A mensagem com id {$id} nao existe", 404);
         }
-       
         return $this->success($contato, 200);
     }
 
